@@ -1,11 +1,21 @@
 language: generic
 sudo: required
-
 services:
   - docker
-
 before_install:
   - docker build -t kandruch/docker-react -f Dockerfile.dev .
-
 script:
   - docker run -e CI=true kandruch/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ca-central-1"
+  app: "docker-react"
+  env: "Dockerreact-env"
+  bucket_name: "elasticbeanstalk-ca-central-1-320262049302"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
