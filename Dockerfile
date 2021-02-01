@@ -9,5 +9,6 @@ COPY ./ ./
 RUN npm run build
 
 FROM nginx
+EXPOSE 80
 # Tell the image what to do when it starts as a container
 COPY --from=0 /usr/app/build /usr/share/nginx/html
